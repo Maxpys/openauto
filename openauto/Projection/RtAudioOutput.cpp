@@ -55,7 +55,7 @@ bool RtAudioOutput::open() {
                        &bufferFrames, &RtAudioOutput::audioBufferReadHandler,
                        static_cast<void*>(this), &streamOptions);
       return audioBuffer_.open(QIODevice::ReadWrite);
-    } catch (const RtAudioError& e) {
+    } catch (const RtError& e) {
       OPENAUTO_LOG(error)
           << "[RtAudioOutput] Failed to open audio output, what: " << e.what();
     }
@@ -77,7 +77,7 @@ void RtAudioOutput::start() {
   if (dac_->isStreamOpen() && !dac_->isStreamRunning()) {
     try {
       dac_->startStream();
-    } catch (const RtAudioError& e) {
+    } catch (const RtError& e) {
       OPENAUTO_LOG(error)
           << "[RtAudioOutput] Failed to start audio output, what: " << e.what();
     }
@@ -114,7 +114,7 @@ void RtAudioOutput::doSuspend() {
   if (dac_->isStreamOpen() && dac_->isStreamRunning()) {
     try {
       dac_->stopStream();
-    } catch (const RtAudioError& e) {
+    } catch (const RtError& e) {
       OPENAUTO_LOG(error)
           << "[RtAudioOutput] Failed to suspend audio output, what: "
           << e.what();
